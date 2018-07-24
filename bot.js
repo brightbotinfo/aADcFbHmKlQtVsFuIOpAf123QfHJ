@@ -67,7 +67,8 @@ client.on('message', message => {
 });
  */    
 client.on("message", message => {
-      if (message.content === "prefix + "ping") {
+      var args = message.content.substring(prefix.length).split(" ");
+        if (message.content.startsWith(prefix + "clear")) {
       const embed = new Discord.RichEmbed()
   .setColor("RANDOM")
   .addField('     **=-=-=-=-=-=-=** ' ,' ** :smiley:  pong!**')
