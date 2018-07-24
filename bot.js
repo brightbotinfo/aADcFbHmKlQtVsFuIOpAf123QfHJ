@@ -287,68 +287,6 @@ client.on('message', message => {
     }
 });
 
-client.on('message', async message => {
-    let args = message.content.split(" ");
-    let warns = JSON.parse(fs.readFileSync('./warnings.json' , 'utf8'));
-      if(message.content.startsWith(prefix + "warn")) {
-      if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.reply("أنت لست مشرفا لا يمكنك إعطاء انذار للأعضاء");
-  let wUser = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
-  if(!wUser) return message.reply("قم بعمل منشن للشخص المراد إعطائه انذار");
-  if(wUser.hasPermission("MANAGE_MESSAGES")) return message.reply("هذا الشخص يملك رتبة أكبر من رتبة البوت , فلا يمكن إعطائه انذار");
-  let reason = args.join(" ").slice(22);
-
-  if(!warns[wUser.id]) warns[wUser.id] = {
-    warns: 0
-  };
-
-  warns[wUser.id].warns++;
-
-  fs.writeFile("./warnings.json", JSON.stringify(warns), (err) => {
-    if (err) console.log(err);
-  });
-
-  let warnEmbed = new Discord.RichEmbed()
-  .setAuthor(message.author.tag , message.author.avatarURL)
-  .setDescription(`\`\`\`\nWarnings: `+ warns[wUser.id].warns + '\nUserID: '+ wUser.id + '\n Reason: '+reason +'```')
-  .setColor("#36393e")
-  .addField('- إسم الشخص',wUser,true)
-  .addField('- الروم',message.channel,true)
-  .setFooter(new Date());
-
-  let warnchannel = message.guild.channels.find(`name`, "warn");
-  if(!warnchannel) return message.reply("لم يتم العثور على الروم الخاص بالإنذارات , قم بعمل روم تحت اسم: ``Warn`` \n __في حال وقوع مشكلة قم مراسلة صاحب البوت عن طريق الأمر__`!.report`");
-
-  warnchannel.send(warnEmbed);
-
-  if(warns[wUser.id].warns == 2){
-    let muterole = message.guild.roles.find(`name`, "Muted");
-    if(!muterole) return message.guild.createRole({
-        name: "Muted",
-        permissions: 0
-    }).then(role => message.guild.channels.forEach(chan => {
-    message.chan.overwritePermissions(role , {
-       SEND_MESSAGES: false,
-       ADD_REACTIONS: false,
-       READ_MESSAGES_HISTORY: false
-    });
-    }));
-
-    let mutetime = "1h";
-    await(wUser.addRole(muterole.id));
-    message.channel.send(`<@${wUser.id}> تم إعطاء هذا الشخص ميوت , لرتكابه مخالفة`);
-
-    setTimeout(function(){
-      wUser.removeRole(muterole.id);
-      message.reply(`<@${wUser.id}> تم فك الميوت عن هذا الشخص , لإنهائه مدة العقوبة`);
-    }, ms(mutetime));
-  }
-  if(warns[wUser.id].warns == 3){
-    message.guild.member(wUser).ban(reason);
-    message.reply(`<@${wUser.id}> تم إعطاء هذا الشخص حظر عن السيرفر , بسبب ارتكابه لمخالفة للمرة الثالثة`);
-  }
-}
-});
-
 client.on('guildMemberRemove', member => {
     var embed = new Discord.RichEmbed()
     .setAuthor(member.user.username, member.user.avatarURL)
