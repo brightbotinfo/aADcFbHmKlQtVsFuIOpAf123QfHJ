@@ -70,10 +70,22 @@ client.on("message", message => {
       if (message.content === "!.ping") {
       const embed = new Discord.RichEmbed()
   .setColor("RANDOM")
+  .addField('     **=-=-=-=-=-=-=** ' ,' ** :smiley:  pong!**')
   .addField('** : سرعة الإتصال هي**' , `${Date.now() - message.createdTimestamp}` + ' ms')
   message.channel.sendEmbed(embed);
     }
 });
+
+client.on("message", message => {
+      if (message.content === "ping") {
+      const embed = new Discord.RichEmbed()
+  .setColor("RANDOM")
+  .addField('     **=-=-=-=-=-=-=** ' ,' ** :smiley:  pong!**')
+  .addField('** : سرعة الإتصال هي**' , `${Date.now() - message.createdTimestamp}` + ' ms')
+  message.channel.sendEmbed(embed);
+    }
+});
+
 
 client.on('ready', function(){
     var ms = 60000 ;
