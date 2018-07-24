@@ -101,7 +101,7 @@ client.on('message', message => {
   if (true) {
 if (message.content === '!.invite') {
       message.author.send('**تفضل اخي الرابط , يشرفنا دعوتك للبوت واستعماله**').catch(e => console.log(e.stack));
-	  message.author.send('https://goo.gl/XPU7pV').catch(e => console.log(e.stack));
+	  message.author.send('https://goo.gl/ahkV3Z').catch(e => console.log(e.stack));
     }
    }
   });
@@ -395,7 +395,7 @@ if (message.content.startsWith(prefix + 'help')) {
 **_ الرابط _
 ╔[❖══════════════════════❖]╗
 |  تفضل أخي الغالي رابط البوت
-  | https://goo.gl/XPU7pV | 
+  | https://goo.gl/ahkV3Z | 
 ╚[❖══════════════════════❖]╝
 ** _ الرابط _
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=
