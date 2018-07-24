@@ -66,19 +66,10 @@ client.on('message', message => {
     }
 });
  */    
-client.on("message", message => {
-      var args = message.content.substring(prefix.length).split(" ");
-        if (message.content.startsWith(prefix + "clear")) {
-      const embed = new Discord.RichEmbed()
-  .setColor("RANDOM")
-  .addField('     **=-=-=-=-=-=-=** ' ,' ** :smiley:  pong!**')
-  .addField('** : سرعة الإتصال هي**' , `${Date.now() - message.createdTimestamp}` + ' ms')
-  message.channel.sendEmbed(embed);
-    }
-});
+
 
 client.on("message", message => {
-      if (message.content === "ping") {
+      if (message.content === "!.ping") {
       const embed = new Discord.RichEmbed()
   .setColor("RANDOM")
   .addField('     **=-=-=-=-=-=-=** ' ,' ** :smiley:  pong!**')
