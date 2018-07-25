@@ -482,6 +482,22 @@ if (message.content.startsWith(prefix + 'help')) {
 | ---    !.ping   ---- |
 ╚[❖══════════════════════❖]╝
 ╔[❖══════════════════════❖]╗
+| لإنشاء روم مؤقت وتفاصيله |
+| ---    !.tem-rom   ---- |
+╚[❖══════════════════════❖]╝
+╔[❖══════════════════════❖]╗
+| لإعادة ارسال صورتك او صورة من تمنشنه |
+| ---    !.picture   ---- |
+╚[❖══════════════════════❖]╝
+╔[❖══════════════════════❖]╗
+| لمعرفة تفاصيل الرتب  |
+| ---    !.info-role   ---- |
+╚[❖══════════════════════❖]╝
+╔[❖══════════════════════❖]╗
+| لمعرفة جميع تفاصيل البوت |
+| ---    !.bot-info   ---- |
+╚[❖══════════════════════❖]╝
+╔[❖══════════════════════❖]╗
 | لإضافة البوت في السيــرفرك |
 | ---    !.invite   ---- |
 ╚[❖══════════════════════❖]╝
@@ -511,6 +527,16 @@ if (message.content.startsWith(prefix + 'help')) {
 | لحظر شخـص مع ارسال السبب |
 | ----    !.ban    ---- |
 ╚[❖══════════════════════❖]╝
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+╔[❖══════════════════════❖]╗
+| لإعطاء ميوت مع ارسال السبب |
+| ----    !.mute    ---- |
+╚[❖══════════════════════❖]╝
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+╔[❖══════════════════════❖]╗
+| لإنذار شخـص مع ارسال السبب |
+| ----    !.warn    ---- |
+╚[❖══════════════════════❖]╝
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ╔[❖══════════════════════❖]╗
 | لمسح عدد معين من الـرسائل |
@@ -524,6 +550,10 @@ if (message.content.startsWith(prefix + 'help')) {
 | إغلاق الرومات وجعلها للمشرفين |
 | ---    !.openroms   ---- |
 ╚[❖══════════════════════❖]╝
+╔[❖══════════════════════❖]╗
+| لإنشاء رسالة جماعية خاصة بالسيرفرات |
+| ---    !.bromassage   ---- |
+╚[❖══════════════════════❖]╝
 **
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -533,6 +563,231 @@ if (message.content.startsWith(prefix + 'help')) {
         })
     })
     }
+});
+ client.on('message', async message => {
+  if(message.content.startsWith(prefix + "tem-rom")) {
+    await message.channel.send("قم بكتابة اسم الروم المراد صنعه").then(e => {
+    let filter = m => m.author.id === message.author.id
+    let name = '';
+    let time = '';
+    let type = '';
+    let limit = '';
+
+   
+    message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+    .then(collected => {
+      name = collected.first().content
+      collected.first().delete()
+
+
+
+e.edit("**قم بإرسال عدد الدقائق التي يستواجد بها الروم المؤقت من 2-180**")
+message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+.then(co => {
+if(isNaN(co.first().content)) return message.reply("الوقت بالدقائق !قم بإرسال ارقام فقطٍ");
+if(co.first().content > 180 || co.first().content < 2) return message.channel.send("عزيزي , لا يمكن  تجاوز هذا العدد من الدقائق , من 2-180")
+  time = co.first().content
+co.first().delete()
+  e.edit("**text**, **voice** |  قم بكتابة نوع الروم")
+message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+.then(col => {
+  type = col.first().content
+col.first().delete()
+e.edit("ارسل عدد الاعضاء الذين يستطيعون الدخول")
+message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
+.then(coll => {
+  if(isNaN(coll.first().content)) return message.reply("لا يمكن ارسال كلمات , فعدد الاعضاء فقط بالأرقام");
+    limit = coll.first().content
+coll.first().delete()
+
+  e.edit("يتم عمل الروم .. الرجاء الإنتظار , سيتم عمل الروم بعد لحضات")
+  message.guild.createChannel(name, type).then(c => {
+    c.edit({
+      userLimit: limit
+    })
+    setTimeout(() => {
+      c.delete()
+      message.channel.send("انتهى الوقت المحدد للروم , نتعذر")
+    }, Math.floor(time*60000))
+    
+  })
+  e.edit("**لقد تم إنشاء الروم المؤقت , نتمنى لك وقتاً سعيداً**")
+
+})
+})
+})
+})
+})
+
+  }
+})
+ 
+client.on('message', message => {
+        var  user = message.mentions.users.first() || message.author;
+    if (message.content.startsWith("!.picture")) {
+message.channel.send(`This avatar For ${user} link : ${user.avatarURL}`);
+}
+});
+
+client.on('message',async message => {
+  let args = message.content.split(" ").slice(1).join(" ");
+  let role = message.guild.roles.find('name',args) || message.guild.roles.get(args);
+
+
+  if(message.content.startsWith(prefix + "info-role")) {
+    if(!args) return message.reply('قم بكتابة اسم الرتبة');
+    if(!role) return message.reply('لم نتمكن من التعرف على الرتبة , تأكد من صحة إسمها');
+    let iQp = new Discord.RichEmbed()
+    .setAuthor(message.author.tag,message.author.avatarURL)
+    .setTitle(message.guild.name)
+    .setThumbnail(message.guild.iconURL)
+    .addField('- اسم الرتبة',role.name,true)
+    .addField('- اي دي الرتبة',role.id,true)
+    .addField('- تم انشاء الرتبة',role.createdAt.toLocaleString(),true)
+    .addField('- لون الرتبة',role.hexColor,true)
+    .addField('- عدد الاعضاء الذي لديهم نفس الرتبة',role.members.size,true)
+    .addField('- مركز الرتبة بين كل الرتب',role.position,true)
+    .addField('- خصائص الرتبة',role.permissions,true)
+    .setFooter(message.author.tag,message.author.avatarURL);
+
+    message.channel.send(iQp);
+  }
+});
+
+client.on("message", message => {
+  if (message.author.bot) return;
+ 
+  let command = message.content.split(" ")[0];
+ 
+  if (command === "!.mute") { // حط البرفكس حقت بوتك قبل الامر
+        if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply("** انت لست من المشرفين , فلا يمكنك إعطاء ميوت **").catch(console.error);
+  let user = message.mentions.users.first();
+  let modlog = client.channels.find('name', 'mute-log');
+  let muteRole = client.guilds.get(message.guild.id).roles.find('name', 'Muted');
+  if (!muteRole) return message.reply("** لا توجد رتبة تحت إسم ==> 'Muted' **").catch(console.error);
+  if (message.mentions.users.size < 1) return message.reply('** يجب عليك المنشن اولاً **').catch(console.error);
+  const embed = new Discord.RichEmbed()
+    .setColor(0x00AE86)
+    .setTimestamp()
+    .addField('الأستعمال:', 'ميوت / فك الميوت')
+    .addField('لقد تم فك الميوت عن الشخص:', `${user.username}#${user.discriminator} (${user.id})`)
+    .addField('بواسطة:', `${message.author.username}#${message.author.discriminator}`)
+ 
+  if (!message.guild.member(client.user).hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return message.reply('** البوت لا يملك الرتبة التي تمكنه من إسكات الأعضاء **').catch(console.error);
+ 
+  if (message.guild.member(user).removeRole(muteRole.id)) {
+      return message.reply("** تم فك الميوت عن الشخص المحدد  .. **").catch(console.error);
+  } else {
+    message.guild.member(user).removeRole(muteRole).then(() => {
+      return message.reply("** تم فك الميوت عن الشخص المحدد .. **").catch(console.error);
+    });
+  }
+ 
+};
+ 
+});
+
+client.on('message', message => {
+     if(message.author.bot) return;
+
+    if (!message.content.startsWith(prefix)) return;
+    let command = message.content.split(" ")[0];
+    command = command.slice(prefix.length);
+    if (command == "warn") {
+
+        if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply("**ليست لديك صلاحيات لإنذار الأشخاص **");
+    let args = message.content.split(" ").slice(1);
+                    let reason = message.content.split(" ").slice(2).join(" ");
+                if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+        if (!reason) return message.reply("**قم بكتابة سبب التحذير ؟**");
+
+        message.channel.sendMessage(args.join("  "))
+        message.delete();
+
+
+    }
+
+});
+
+
+client.on('message', message => {
+    if(message.content === "!.bot-info") {
+        const embed = new Discord.RichEmbed()
+        .setColor("#00FFFF")
+  .addField('**الذاكرة المستخدمة 💾**', `${(process.memoryUsage().rss / 1000000).toFixed()}MB`, true)
+         .addField('**سرعة الاتصال📡**' , `${Date.now() - message.createdTimestamp}` + ' ms')
+        .addField('**استخدام المعالج💿**', `${(process.cpuUsage().rss / 10000).toFixed()}%`, true)
+        .addField('**🌐 عدد السيرفرات**' , `${client.guilds.size}`, true)
+        .addField('**عدد المستخدمين 👥 **' , `${client.users.size}`, true)
+               message.channel.sendEmbed(embed);
+           }
+});
+
+client.on('message', message => {
+  if (message.author.omar) return;
+  if (!message.content.startsWith(prefix)) return;
+  var command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+  var args = message.content.split(" ").slice(1);
+  if (command == "ban") {
+   if(!message.channel.guild) return message.reply('**هذه النوعية من الأوامر للسيرفرات فقط**');
+  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**لا يمكنك حظر الأعضاء , فانت لست مشرفاً**");
+if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**لا يمكن اعطاء باند للعضو فالبوت ليس مشرفاً **");
+var user = message.mentions.users.first();
+  var reason = message.content.split(" ").slice(2).join(" ");
+  if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+  if(!reason) return message.reply ("**قم بكتابة سبب الطرد**");
+  if (!message.guild.member(user).banable) return message.reply("**هذا الشخص يمتلك رتبة أكبر من رتبة البوت البوت , ولا يمكن حظره**");
+  const banembed = new Discord.RichEmbed()
+  .setAuthor(`BAN!`, user.displayAvatarURL)
+  .setColor("RANDOM")
+  .addField("**User:**",  '**[ ' + `${user.tag}` + ' ]**')
+  .addField("**By:**", '**[ ' + `${message.author.tag}` + ' ]**')
+  .addField("**Reason:**", '**[ ' + `${reason}` + ' ]**')
+  user.send(reason).then(()=>{
+message.guild.member(user).kick();
+  })
+}
+});
+
+
+
+client.on('message', message => {
+  if (message.author.id === client.user.id) return;
+  if (message.guild) {
+ let embed = new Discord.RichEmbed()
+  let args = message.content.split(' ').slice(1).join(' ');
+if(message.content.split(' ')[0] == prefix + 'bromassage') {
+  if (!args[1]) {
+message.channel.send("**!.bromassage <رسالتك>**");
+return;
+}
+      message.guild.members.forEach(m => {
+ if(!message.member.hasPermission('ADMINISTRATOR')) return;
+          var bc = new Discord.RichEmbed()
+          .setAuthor(message.author.username, message.author.avatarURL)
+          .addField('قام هذا الشخص', `${message.author.username}!${message.author.discriminator}`,true)
+		  .addField('__ بإرسال رسالة جماعية__',' =-=-=-=-=-=-=-=-=-=-=-=-')
+          .addField('عبر هذا السيرفر', `${message.guild.name}`,true)		  
+		  .addField('=-=-=-=-=-=-=-=-=-=-=-=- ',' =-=-=-=-=-=-=-=-=-=-=-=-')
+          .addField('**ومضمون رسالته هو :**', args)
+		  .addField('=-=-=-=-=-=-=-=-=-=-=-=- ',' =-=-=-=-=-=-=-=-=-=-=-=-')
+          .setThumbnail(message.guild.iconURL)
+          .setColor('RANDOM')
+          m.send(`${m}`,{embed: bc});
+      });
+      const AziRo = new Discord.RichEmbed()
+      .setAuthor(message.author.username, message.author.avatarURL)
+      .setTitle('✅| جاري ارسال رسالتك ')
+      .addBlankField(true)
+      .addField('♨| عدد الاعضاء المرسل لهم ', message.guild.memberCount , true)
+      .addField('📝| الرسالة ', args)
+      .setColor('RANDOM')
+      message.channel.sendEmbed(embed);
+  }
+  } else {
+      return;
+  }
 });
 
 client.login(process.env.BOT_TOKEN);
