@@ -791,38 +791,32 @@ client.on('message', function(message) {
 				.setAuthor(client.user.username, client.user.avatarURL)
 				.setDescription('**قم بوضع الرابط , او  الاسم**')
 			message.channel.sendEmbed(play_info)
-		});
 		}
-	else if (mess.startsWith('-skip')) {
+	else if (mess.startsWith('!.skip')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم التخطي**').then(() => {
 		});
 	}
-	else if (message.content.startsWith('-vol')) {
+	else if (message.content.startsWith('!.vol')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		// console.log(args)
 		if (args > 100) return message.reply(':x: **100**');
 		if (args < 1) return message.reply(":x: **1**");
 	}
-	else if (mess.startsWith('-pause')) {
+	else if (mess.startsWith('!.pause')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم الايقاف مؤقت**').then(() => {
 		});
 	}
-	else if (mess.startsWith('-unpause')) {
-		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
-		message.reply(':gear: **تم اعاده التشغيل**').then(() => {
-		});
-	}
-	else if (mess.startsWith('-stop')) {
+	else if (mess.startsWith('!.stop')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':name_badge: **تم الايقاف**');
 	}
-	else if (mess.startsWith('-join')) {
+	else if (mess.startsWith('!.join')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.member.voiceChannel.join().then(message.react('✅'));
 	}
-	else if (mess.startsWith('-play')) {
+	else if (mess.startsWith('!.play')) {
 		getID(args, function(id) {
 			add_to_queue(id);
 			fetchVideoInfo(id, function(err, videoInfo) {
