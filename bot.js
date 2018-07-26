@@ -777,5 +777,31 @@ return;
   }
 });
 
+client.on('message', message => {
+            if (message.content.startsWith('!.play')) {
+		if (!message.member.voiceChannel) return message.reply('**اذا أردت التشغيل ؟ , عليك الدخول لروم صوتي**');
+     let embed = new Discord.RichEmbed()
+.setThumbnail(message.author.avatarURL)
+  .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم التشغيل بنجاح ')
+  .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
+  .setColor('#7d2dbe')
+  
+  message.channel.sendEmbed(embed);
+    }
+});
+
+ client.on('message', message => {
+            if (message.content.startsWith('!.stop')) {
+		if (!message.member.voiceChannel) return message.reply('**اذا أردت الإيقاف ؟ , عليك الدخول لروم صوتي**');
+     let embed = new Discord.RichEmbed()
+.setThumbnail(message.author.avatarURL)
+  .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم الإيقاف بنجاح ')
+  .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
+  .setColor('#7d2dbe')
+  
+  message.channel.sendEmbed(embed);
+    }
+});
+
 
 client.login(process.env.BOT_TOKEN);
