@@ -791,43 +791,4 @@ return;
   }
 });
 
-client.on('message', message => {
-            if (message.content.startsWith('!.play')) {
-		if(!message.channel.voiceChannel) return message.reply('**__عزيزي , اذا أردت التشغيل يجب عليك الدخول في روم صوتي__**');
-     let embed = new Discord.RichEmbed()
-.setThumbnail(message.author.avatarURL)
-  .addField('     **=-=-=-=-=-=-=** ' ,' :white_check_mark:  لقد تم التشغيل بنجاح ')
-  .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
-  .setColor('#7d2dbe')
-  
-  message.channel.sendEmbed(embed);
-    }
-});
-
- client.on('message', message => {
-            if (message.content.startsWith('!.stop')) {
-		if(!message.channel.voiceChannel) return message.reply('**__عزيزي , يجب عليك الدخول في روم صوتي للإيقاف__**');
-     let embed = new Discord.RichEmbed()
-.setThumbnail(message.author.avatarURL)
-  .addField('     **=-=-=-=-=-=-=** ' ,' :white_check_mark:  لقد تم الإيقاف بنجاح ')
-  .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
-  .setColor('#7d2dbe')
-  
-  message.channel.sendEmbed(embed);
-    }
-});
-
- client.on('message', message => {
-            if (message.content.startsWith('!.stop')) {
-		if(!message.channel.voiceChannel) return message.reply('**__عزيزي , هذا النوع من الاوامر فقط للسيرفرات__**');
-     let embed = new Discord.RichEmbed()
-.setThumbnail(message.author.avatarURL)
-  .addField('     **=-=-=-=-=-=-=** ' ,' :white_check_mark:  لقد انضم البوت معك في الروم الصوتي ')
-  .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
-  .setColor('#7d2dbe')
-  
-  message.channel.sendEmbed(embed);
-    }
-});
-
 client.login(process.env.BOT_TOKEN);
