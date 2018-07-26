@@ -779,7 +779,7 @@ return;
 
 client.on('message', message => {
             if (message.content.startsWith('!.play')) {
-		if(!message.channel.guild) return message.reply('**عزيزي , هذه الأوامر فقط للسيرفرات**');
+		if(!message.channel.voiceChannel) return message.reply('**عزيزي , هذه الأوامر فقط للسيرفرات**');
      let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
   .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم التشغيل بنجاح ')
@@ -792,7 +792,7 @@ client.on('message', message => {
 
  client.on('message', message => {
             if (message.content.startsWith('!.stop')) {
-		if(!message.channel.guild) return message.reply('**عزيزي , هذه الأوامر فقط للسيرفرات**');
+		if(!message.channel.voiceChannel) return message.reply('**يجب عليك الدخول في روم صوتي للإيقاف**');
      let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
   .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم الإيقاف بنجاح ')
