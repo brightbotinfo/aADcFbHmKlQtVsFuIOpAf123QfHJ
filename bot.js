@@ -790,4 +790,126 @@ return;
   }
 });
 
+
+client.on('message', function(message) {
+	const member = message.member;
+	const mess = message.content.toLowerCase();
+	const args = message.content.split(' ').slice(1).join(' ');
+
+	if (mess.startsWith('-play')) {
+		if (!message.member.voiceChannel) return message.reply('** You Are Not In VoiceChannel **');
+		// if user is not insert the URL or song title
+		if (args.length == 0) {
+			let play_info = new Discord.RichEmbed()
+				.setAuthor(client.user.username, client.user.avatarURL)
+				.setDescription('**قم بوضع الرابط , او  الاسم**')
+			message.channel.sendEmbed(play_info)
+			return;
+		}
+		if (queue.length > 0 || isPlaying) {
+			getID(args, function(id) {
+				add_to_queue(id);
+				fetchVideoInfo(id, function(err, videoInfo) {
+					if (err) throw new Error(err);
+					let play_info = new Discord.RichEmbed()
+						.setAuthor("أضيف إلى قائمة الانتظار", message.author.avatarURL)
+						.setDescription(`**${videoInfo.title}**`)
+						.setColor("RANDOM")
+						.setFooter('Requested By:' + message.author.tag)
+						.setImage(videoInfo.thumbnailUrl)
+					//.setDescription('?')
+					message.channel.sendEmbed(play_info);
+					queueNames.push(videoInfo.title);
+					// let now_playing = videoInfo.title;
+					now_playing.push(videoInfo.title);
+
+				});
+			});
+		}
+		else {
+
+			isPlaying = true;
+			getID(args, function(id) {
+				queue.push('placeholder');
+				playMusic(id, message);
+				fetchVideoInfo(id, function(err, videoInfo) {
+					if (err) throw new Error(err);
+					let play_info = new Discord.RichEmbed()
+						.setAuthor(`Added To Queue`, message.author.avatarURL)
+						.setDescription(`**${videoInfo.title}**`)
+						.setColor("RANDOM")
+						.setFooter('بطلب من: ' + message.author.tag)
+						.setThumbnail(videoInfo.thumbnailUrl)
+					//.setDescription('?')
+					message.channel.sendEmbed(play_info);
+				});
+			});
+		}
+	}
+	else if (mess.startsWith('-skip')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		message.reply(':gear: **تم التخطي**').then(() => {
+			skip_song(message);
+			var server = server = servers[message.guild.id];
+			if (message.guild.voiceConnection) message.guild.voiceConnection.end();
+		});
+	}
+	else if (message.content.startsWith('-vol')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		// console.log(args)
+		if (args > 100) return message.reply(':x: **100**');
+		if (args < 1) return message.reply(":x: **1**");
+		dispatcher.setVolume(1 * args / 50);
+		message.channel.sendMessage(`Volume Updated To: **${dispatcher.volume*50}**`);
+	}
+	else if (mess.startsWith('-pause')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		message.reply(':gear: **تم الايقاف مؤقت**').then(() => {
+			dispatcher.pause();
+		});
+	}
+	else if (mess.startsWith('-unpause')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		message.reply(':gear: **تم اعاده التشغيل**').then(() => {
+			dispatcher.resume();
+		});
+	}
+	else if (mess.startsWith('-stop')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		message.reply(':name_badge: **تم الايقاف**');
+		var server = server = servers[message.guild.id];
+		if (message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+	}
+	else if (mess.startsWith('-join')) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
+		message.member.voiceChannel.join().then(message.react('✅'));
+	}
+	else if (mess.startsWith('-play')) {
+		getID(args, function(id) {
+			add_to_queue(id);
+			fetchVideoInfo(id, function(err, videoInfo) {
+				if (err) throw new Error(err);
+				if (!message.member.voiceChannel) return message.reply('**عفوا, انت غير موجود في روم صوتي**');
+				if (isPlaying == false) return message.reply(':x:');
+				let playing_now_info = new Discord.RichEmbed()
+					.setAuthor(client.user.username, client.user.avatarURL)
+					.setDescription(`**${videoInfo.title}**`)
+					.setColor("RANDOM")
+					.setFooter('Requested By:' + message.author.tag)
+					.setImage(videoInfo.thumbnailUrl)
+				message.channel.sendEmbed(playing_now_info);
+				queueNames.push(videoInfo.title);
+				// let now_playing = videoInfo.title;
+				now_playing.push(videoInfo.title);
+
+			});
+
+		});
+	}
+
+	function skip_song(message) {
+		if (!message.member.voiceChannel) return message.reply('**عفوا, انت غير موجود في روم صوتي**');
+		dispatcher.end();
+	}
+
 client.login(process.env.BOT_TOKEN);
