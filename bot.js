@@ -817,14 +817,8 @@ client.on('message', function(message) {
 		message.member.voiceChannel.join().then(message.react('✅'));
 	}
 	else if (mess.startsWith('!.play')) {
-		getID(args, function(id) {
-			add_to_queue(id);
-			fetchVideoInfo(id, function(err, videoInfo) {
-				if (err) throw new Error(err);
 				if (!message.member.voiceChannel) return message.reply('**عفوا, انت غير موجود في روم صوتي**');
 				if (isPlaying == false) return message.reply(':x:');
-			});
-
 		});
 	}
 
