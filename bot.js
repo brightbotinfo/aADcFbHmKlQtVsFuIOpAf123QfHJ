@@ -779,10 +779,10 @@ return;
 
 client.on('message', message => {
             if (message.content.startsWith('!.play')) {
-		if(!message.channel.voiceChannel) return message.reply('**عزيزي , هذه الأوامر فقط للسيرفرات**');
+		if(!message.channel.voiceChannel) return message.reply('**__عزيزي , اذا أردت التشغيل يجب عليك الدخول في روم صوتي__**');
      let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
-  .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم التشغيل بنجاح ')
+  .addField('     **=-=-=-=-=-=-=** ' ,' :white_check_mark:  لقد تم التشغيل بنجاح ')
   .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
   .setColor('#7d2dbe')
   
@@ -792,10 +792,10 @@ client.on('message', message => {
 
  client.on('message', message => {
             if (message.content.startsWith('!.stop')) {
-		if(!message.channel.voiceChannel) return message.reply('**يجب عليك الدخول في روم صوتي للإيقاف**');
+		if(!message.channel.voiceChannel) return message.reply('**__عزيزي , يجب عليك الدخول في روم صوتي للإيقاف__**');
      let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
-  .addField('     **=-=-=-=-=-=-=** ' ,'لقد تم الإيقاف بنجاح ')
+  .addField('     **=-=-=-=-=-=-=** ' ,' :white_check_mark:  لقد تم الإيقاف بنجاح ')
   .addField('     **=-=-=-=-=-=-=** ' ,' :smiley:  شكراً لإستعمالك البوت')
   .setColor('#7d2dbe')
   
