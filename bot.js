@@ -849,9 +849,6 @@ client.on('message', function(message) {
 	else if (mess.startsWith('-skip')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم التخطي**').then(() => {
-			skip_song(message);
-			var server = server = servers[message.guild.id];
-			if (message.guild.voiceConnection) message.guild.voiceConnection.end();
 		});
 	}
 	else if (message.content.startsWith('-vol')) {
@@ -859,26 +856,20 @@ client.on('message', function(message) {
 		// console.log(args)
 		if (args > 100) return message.reply(':x: **100**');
 		if (args < 1) return message.reply(":x: **1**");
-		dispatcher.setVolume(1 * args / 50);
-		message.channel.sendMessage(`Volume Updated To: **${dispatcher.volume*50}**`);
 	}
 	else if (mess.startsWith('-pause')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم الايقاف مؤقت**').then(() => {
-			dispatcher.pause();
 		});
 	}
 	else if (mess.startsWith('-unpause')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم اعاده التشغيل**').then(() => {
-			dispatcher.resume();
 		});
 	}
 	else if (mess.startsWith('-stop')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':name_badge: **تم الايقاف**');
-		var server = server = servers[message.guild.id];
-		if (message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
 	}
 	else if (mess.startsWith('-join')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
@@ -891,17 +882,6 @@ client.on('message', function(message) {
 				if (err) throw new Error(err);
 				if (!message.member.voiceChannel) return message.reply('**عفوا, انت غير موجود في روم صوتي**');
 				if (isPlaying == false) return message.reply(':x:');
-				let playing_now_info = new Discord.RichEmbed()
-					.setAuthor(client.user.username, client.user.avatarURL)
-					.setDescription(`**${videoInfo.title}**`)
-					.setColor("RANDOM")
-					.setFooter('Requested By:' + message.author.tag)
-					.setImage(videoInfo.thumbnailUrl)
-				message.channel.sendEmbed(playing_now_info);
-				queueNames.push(videoInfo.title);
-				// let now_playing = videoInfo.title;
-				now_playing.push(videoInfo.title);
-
 			});
 
 		});
