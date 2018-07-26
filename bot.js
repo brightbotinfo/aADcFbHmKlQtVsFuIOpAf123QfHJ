@@ -126,30 +126,17 @@ if (message.content === '!.invite') {
 });
 
 
-client.on("message", message => {
-    var prefix = "!.";
- 
-            var args = message.content.substring(prefix.length).split(" ");
-            if (message.content.startsWith(prefix + "clear")) {
-            if(!message.channel.guild) return message.reply('**عزيزي , لا يمكن مسح الشات إلا داخل السيرفرات**');				
-   if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('⚠ | **عزيزي أنت لست مشرفاً**');
-        var msg;
-        msg = parseInt();
-      
-      message.channel.fetchMessages({limit: msg}).then(messages => message.channel.bulkDelete(messages)).catch(console.error);
-      message.channel.sendMessage("", {embed: {
-        title: "حذف الرسائل",
-        color: 0x06DF00,
-        description: "لقد تم حذف الرسائل بنجاح ",
-        footer: {
-          text: "By Abo Khalil"
-        }
-      }}).then(msg => {msg.delete(3000)});
-                          }
-
-     
-}); 
-
+client.on('message', message => {
+    let args = message.content.split(" ").slice(1);
+if (message.content.startsWith(prefix + 'clear')) {
+ let args = message.content.split(" ").slice(1)
+    let messagecount = parseInt(args);
+    if (args > 100) return message.reply("اعلى عدد يمكن مسحه من الرسائل هو ==> 100").then(messages => messages.delete(5000))
+    if (!messagecount) return message.reply("قم بختيار عدد الرسائل المراد حذفها من 1-100").then(messages => messages.delete(5000))
+    message.channel.fetchMessages({limit: messagecount + 1}).then(messages => message.channel.bulkDelete(messages));
+    message.channel.send(`\`${args}\`لقد تمت عملية مسح الشات ,شكرا لك لإستعمالك البوت`).then(messages => messages.delete(5000));
+  }
+  });
 
 
  client.on("message", message => {
@@ -796,56 +783,16 @@ client.on('message', function(message) {
 	const mess = message.content.toLowerCase();
 	const args = message.content.split(' ').slice(1).join(' ');
 
-	if (mess.startsWith('-play')) {
-		if (!message.member.voiceChannel) return message.reply('** You Are Not In VoiceChannel **');
+	if (mess.startsWith('!.play')) {
+		if (!message.member.voiceChannel) return message.reply('** لست في روم صوتي لتتمكن من التشغيل **');
 		// if user is not insert the URL or song title
 		if (args.length == 0) {
 			let play_info = new Discord.RichEmbed()
 				.setAuthor(client.user.username, client.user.avatarURL)
 				.setDescription('**قم بوضع الرابط , او  الاسم**')
 			message.channel.sendEmbed(play_info)
-			return;
+		});
 		}
-		if (queue.length > 0 || isPlaying) {
-			getID(args, function(id) {
-				add_to_queue(id);
-				fetchVideoInfo(id, function(err, videoInfo) {
-					if (err) throw new Error(err);
-					let play_info = new Discord.RichEmbed()
-						.setAuthor("أضيف إلى قائمة الانتظار", message.author.avatarURL)
-						.setDescription(`**${videoInfo.title}**`)
-						.setColor("RANDOM")
-						.setFooter('Requested By:' + message.author.tag)
-						.setImage(videoInfo.thumbnailUrl)
-					//.setDescription('?')
-					message.channel.sendEmbed(play_info);
-					queueNames.push(videoInfo.title);
-					// let now_playing = videoInfo.title;
-					now_playing.push(videoInfo.title);
-
-				});
-			});
-		}
-		else {
-
-			isPlaying = true;
-			getID(args, function(id) {
-				queue.push('placeholder');
-				playMusic(id, message);
-				fetchVideoInfo(id, function(err, videoInfo) {
-					if (err) throw new Error(err);
-					let play_info = new Discord.RichEmbed()
-						.setAuthor(`Added To Queue`, message.author.avatarURL)
-						.setDescription(`**${videoInfo.title}**`)
-						.setColor("RANDOM")
-						.setFooter('بطلب من: ' + message.author.tag)
-						.setThumbnail(videoInfo.thumbnailUrl)
-					//.setDescription('?')
-					message.channel.sendEmbed(play_info);
-				});
-			});
-		}
-	}
 	else if (mess.startsWith('-skip')) {
 		if (!message.member.voiceChannel) return message.reply('**عفوا ,انت غير موجود في روم صوتي**');
 		message.reply(':gear: **تم التخطي**').then(() => {
