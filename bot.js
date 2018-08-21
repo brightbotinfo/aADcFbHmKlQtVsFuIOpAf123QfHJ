@@ -345,7 +345,7 @@ if (message.content.startsWith(prefix + 'help')) {
 		const bokwards = msg.createReactionCollector(bokwardsFilter, { time: 20000});
 		const bekwards = msg.createReactionCollector(bekwardsFilter, { time: 20000});
 		const brkwards = msg.createReactionCollector(brkwardsFilter, { time: 20000});
-		const bnkwards = msg.createReactionCollector(brkwardsFilter, { time: 20000});
+		const bnkwards = msg.createReactionCollector(bnkwardsFilter, { time: 20000});
 		
 		
 		
