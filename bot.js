@@ -82,7 +82,7 @@ client.on("message", message => {
 
 client.on('ready', function(){
     var ms = 60000 ;
-    var setGame = ['!.invite','!.help','my prefix is "!."','By Abo Khalil','التحديث غدا ان شاء الله'];
+    var setGame = ['!.invite','!.help','my prefix is "!."','By Abo Khalil','14 Server'];
     var i = -1;
     var j = 0;
     setInterval(function (){
