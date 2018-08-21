@@ -3,8 +3,10 @@
   "version": "2.1.0",
   "description": "-- AWESOMENESS --",
   "main": "bot.js",
+  "main": "bot2.js",
   "scripts": {
     "start": "node bot.js"
+    "start": "node bot2.js"
   },
   "dependencies": {
     "ascii-data-table": "^2.1.1",
